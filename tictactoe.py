@@ -1,28 +1,19 @@
-import pygame
+import numpy as np
 
-#setup
-pygame.init()
-height = 800
-width = 800
-screen = pygame.display.set_mode((width, height))
-running = True
-WHITE = (255,255,255)
+example_board = np.array([['X','O','X'],
+                          [' ', ' ', ' '],
+                          [' ', 'O', ' ']])
 
-while running:
-      
-   #drawing board test
-    
-        
-    pygame.draw.line(screen, WHITE, [width / 3, 0], [width / 3, height])
-    pygame.draw.line(screen, WHITE, [width / 3 * 2, 0], [width / 3 * 2, height])
-    
-    pygame.draw.line(screen, WHITE, [0, height / 3], [width, height / 3])
-    pygame.draw.line(screen, WHITE, [0, height / 3 * 2], [width, height / 3 * 2])
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-            
-    pygame.display.update()
+def get_possible_moves(board, player): 
+    moves = []
+    for (x,y) , element in np.ndenumerate(board):
+        if element == ' ':
+            new_board = np.array(board, copy=True)
+            new_board[x][y] = 'X' if player is 'max' else 'O'
+            moves.append(new_board)
+    return moves
 
-pygame.quit()
+example_moves = get_possible_moves(example_board, 'max')
+for b in example_moves:
+    print(b)
