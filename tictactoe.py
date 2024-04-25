@@ -1,9 +1,5 @@
 import numpy as np
 
-example_board = np.array([['X','O','X'],
-                          [' ', ' ', ' '],
-                          [' ', 'O', ' ']])
-
 
 def get_possible_moves(board, player): 
     moves = []
@@ -14,6 +10,34 @@ def get_possible_moves(board, player):
             moves.append(new_board)
     return moves
 
-example_moves = get_possible_moves(example_board, 'max')
-for b in example_moves:
-    print(b)
+#final score of board
+# 1: game ends with a win for X
+# -1: game ends with a win for O
+# O: Tie game
+
+def get_score(board, depth=0):
+    if (np.any(np.all(board == 'X', axis = 0)) or 
+        np.any(np.all(board == 'X', axis = 1)) or
+        np.all(board.diagonal() == 'X') or 
+        np.all(np.fliplr(board).diagonal() == 'X')): 
+        
+        #MAX victory
+        return 1 * (1 / (1+depth))
+    
+    elif (np.any(np.all(board == 'O', axis = 0)) or 
+        np.any(np.all(board == 'O', axis = 1)) or
+        np.all(board.diagonal() == 'O') or 
+        np.all(np.fliplr(board).diagonal() == 'O')):
+        
+        #min victory
+        return -1 * (1/ (1+depth))
+    
+    elif not (board == ' ').any():
+        #Draw
+        return 0
+    
+    else: 
+        return None
+    
+
+    
