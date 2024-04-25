@@ -40,4 +40,7 @@ def get_score(board, depth=0):
         return None
     
 
+    #alpha beta pruning :(
+    def find_value(board, player, alpha=float('-inf'),beta=float('inf'), depth=0 ):
+        return 0
     
