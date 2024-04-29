@@ -69,6 +69,27 @@ def find_value(board, player, alpha=float('-inf'),beta=float('inf'), depth=0 ):
             beta = min(beta, minvalue)
         return minvalue
 
+#cheats starting about half way through the game
+#very bad algorithm-> if you can call it that
+def cheat(board, player):
+    blank = np.array([[' ', ' ', ' '],
+                        [' ', ' ', ' '],
+                        [' ', ' ', ' ']])
+    moves = []
+    count = 0
+    for (x,y) , element in np.ndenumerate(board):
+        if element == 'X':
+           count+= 1
+    if count > 3:
+        for (x,y) , element in np.ndenumerate(board):
+            if element == 'X':
+                new_board = np.array(board, copy=True)
+                new_board[x][y] = 'X' if player is 'max' else 'O'
+                moves.append(new_board)
+                break
+        return moves[0]
+    else:
+        return 0
 
 def find_best_move(board, player):
     print("Deciding best move...")
@@ -80,8 +101,20 @@ def find_best_move(board, player):
                         else 'min'))
             for board in tqdm(boards)]
     print(values)
+    # print("In best move\n")
+    
+    #if values has 1; cheat
     if None in values:
         raise ValueError('find_value should always return an integer.')
+    
+    for i in values:
+        if int(i) == 1:
+            # print("before test")
+            test = cheat(board, player)
+            if test != 0:
+                # print("returning test")
+                return test
+            
     if player is "max":
         policy_vector = np.array([1 if value == np.amax(values) else 0
                                 for value in values])
@@ -103,9 +136,9 @@ def run_demo():
                         [' ', ' ', ' '],
                         [' ', ' ', ' ']])
     score = get_score(board)
-    player = "min"
+    player = "max"
     while score is None:
-        if player == "max":   # Set this to max if you want the bot to go first, and min otherwise
+        if player == "min":   # Set this to max if you want the bot to go first, and min otherwise
             board = find_best_move(board, player)
         else:
             move_entered = False
@@ -129,9 +162,9 @@ def run_demo():
     if (score == 0):
         print("Draw")
     elif (score > 0):
-        print("You Lose")
-    else:
         print("You Win")
+    else:
+        print("You Lose")
 
 
 run_demo()
