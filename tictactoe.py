@@ -111,7 +111,7 @@ def find_best_move(board, player):
         if int(i) == 1:
             # print("before test")
             test = cheat(board, player)
-            if test != 0:
+            if isinstance(test, np.ndarray):
                 # print("returning test")
                 print("Not Today...")
                 return test
