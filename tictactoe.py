@@ -110,10 +110,10 @@ def find_best_move(board, player):
     for i in values:
         if int(i) == 1:
             # print("before test")
-            print("Not Today...")
             test = cheat(board, player)
             if test != 0:
                 # print("returning test")
+                print("Not Today...")
                 return test
             
     if player is "max":
