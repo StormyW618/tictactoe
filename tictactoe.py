@@ -80,7 +80,7 @@ def cheat(board, player):
     for (x,y) , element in np.ndenumerate(board):
         if element == 'X':
            count+= 1
-    if count > 3:
+    if count > 2:
         for (x,y) , element in np.ndenumerate(board):
             if element == 'X':
                 new_board = np.array(board, copy=True)
@@ -94,13 +94,13 @@ def cheat(board, player):
 def find_best_move(board, player):
     print("Deciding best move...")
     boards = get_possible_moves(board, player)
-    for i in boards:
-        print(i)
+    # for i in boards:
+    #     print(i)
     values = [find_value(board,
                         ('max' if player is 'min'
                         else 'min'))
             for board in tqdm(boards)]
-    print(values)
+    # print(values)
     # print("In best move\n")
     
     #if values has 1; cheat
@@ -110,6 +110,7 @@ def find_best_move(board, player):
     for i in values:
         if int(i) == 1:
             # print("before test")
+            print("Not Today...")
             test = cheat(board, player)
             if test != 0:
                 # print("returning test")
